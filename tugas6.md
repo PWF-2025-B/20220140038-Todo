@@ -1,0 +1,6 @@
+![alt text](<screenshoot/tugas6/Todo Completed.png>)
+![alt text](screenshoot/tugas6/edit.png)
+![alt text](screenshoot/tugas6/delete.png)
+![alt text](<screenshoot/tugas6/make admin.png>)
+![alt text](<screenshoot/tugas6/remove admin.png>)
+![alt text](<screenshoot/tugas6/user delete.png>)
