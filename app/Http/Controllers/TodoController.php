@@ -57,7 +57,7 @@ class TodoController extends Controller
 
     public function complete(Todo $todo)
     {
-        if(auth()->user()->id == $todo->user_id){
+        if(Auth::id() == $todo->user_id){
             $todo->update([
                 'is_done' => true,
             ]);
@@ -69,7 +69,7 @@ class TodoController extends Controller
 
     public function uncomplete(Todo $todo)
     {
-        if(auth()->user()->id == $todo->user_id){
+        if(Auth::id() == $todo->user_id){
             $todo->update([
                 'is_done' => false,
             ]);
