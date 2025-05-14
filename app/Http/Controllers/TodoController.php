@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Todo;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 class TodoController extends Controller
 {
@@ -22,7 +23,9 @@ class TodoController extends Controller
 
     public function create()
     {
-        return view('todo.create');
+        $categories = Category::where('user_id', auth()->id())->get();
+        //dd($categories->toArray()); // Pastikan ini berisi data
+        return view('todo.create', compact('categories'));
     }
 
     public function edit(Todo $todo)
@@ -30,6 +33,8 @@ class TodoController extends Controller
         if (auth()->user()->id == $todo->user_id) {
             // dd($todo);
             return view('todo.edit', compact('todo'));
+            $categories = Category::where('user_id', Auth::id())->get();
+            return view('todo.edit', compact('todo','categories'));
         } else {
             // abort(403);
             // abort(403, 'Not authorized');
@@ -41,6 +46,7 @@ class TodoController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
+            'category_id' => 'nullable|exists:categories,id'
         ]);
 
         // Practical
@@ -50,6 +56,7 @@ class TodoController extends Controller
         // Eloquent Way - Readable
         $todo->update([
             'title' => ucfirst($request->title),
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('todo.index')->with('success', 'Todo updated successfully!');
@@ -83,11 +90,13 @@ class TodoController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
+            'category_id' => 'required|exists:categories,id'
           
         ]);
         $todo = Todo::create([
             'title' => ucfirst($request->title),
             'user_id' => Auth::id(),
+            'category_id' => $request->category_id
         ]);
         return redirect()->route('todo.index')->with('success', 'Todo created successfully.');
     }
