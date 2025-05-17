@@ -10,16 +10,27 @@ class TodoController extends Controller
 {
     public function index()
     {
-        $todos = Todo::where('user_id', auth()->user()->id)
-         ->orderBy('is_done', 'asc')
-         ->orderBy('created_at', 'desc')
-         ->get();
+        //$todos = Todo::where('user_id', auth()->user()->id)
+         //->orderBy('is_done', 'asc')
+         //->orderBy('created_at', 'desc')
+         //->get();
          // dd($todos);
-         $todosCompleted = Todo::where('user_id', auth()->user()->id)
+        $todosCompleted = Todo::where('user_id', auth()->user()->id)
             ->where('is_done', true)
             ->count();
-         return view('todo.index', compact('todos', 'todosCompleted'));
-    }
+
+        $todos = Todo::with('category') // <-- ini adalah variabel yang dibutuhkan
+            ->where('user_id', Auth::id())
+            ->orderBy('is_done', 'asc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        $todosCompleted = Todo::where('user_id', Auth::id())
+            ->where('is_done', true)
+            ->count();
+
+        return view('todo.index', compact('todos', 'todosCompleted'));
+        }
 
     public function create()
     {

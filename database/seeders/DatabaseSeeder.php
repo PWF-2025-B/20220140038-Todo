@@ -30,8 +30,8 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create();
         Todo::factory(500)->create();
 
-        Category::create(['name' => 'Work', 'user_id' => 1]);
-        Category::create(['name' => 'Personal', 'user_id' => 1]);
+        // Category::create(['name' => 'Work', 'user_id' => 1]);
+        // Category::create(['name' => 'Personal', 'user_id' => 1]);
 
     }
 }

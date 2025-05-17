@@ -11,7 +11,9 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $category = Category::where('user_id', Auth::id())->get();
+        //$category = Category::where('user_id', Auth::id())->get();
+        //$category = Category::with('todo')->where('user_id', Auth::id())->get();
+        $category = Category::with('todos')->where('user_id', Auth::id())->get();
         return view('category.index', compact('category'));
     }
 
